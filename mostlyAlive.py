@@ -1,8 +1,14 @@
 __author__ = 'Chenxi'
 #!/usr/bin/py
 
+#year_with_max_population(path) is the function I came up to solve the problem
+#via dynamic programming
+#I have considered the death year as the alive year of a person
+# since a person still live in that year before he dies sometime during that year
+
 import pandas as pd
 import collections
+#the below 2 are global variables
 people = []
 path = None
 
@@ -15,19 +21,34 @@ def readfile(path):
     DeathYr = test_db['Death-Year'].dropna()
     return population,BirthYr,DeathYr
 
+#the year_with_max_population(path) is the core function of the program to find the
+#max population year and it applies dynamic programming to speed up the program
+#It has a O(N) time complexity
+# since there are only single loops for the processes(no nested loops)
 def year_with_max_population(path):
     population,BirthYr,DeathYr = readfile(path)
+    #create a nested array to store people's info
     for i in xrange(population):
         people.append([i,BirthYr[i],DeathYr[i]])
-
+    #this line is to get an all zeros array to store population change later on
     population_diff = [0 for _ in xrange(1900, 2002)]
-
+    #this line is to store persons position and its counts to the population_diff array
+    #and person[1] means person["BirthYr"] whereas person[2] means person["DeathYr"]
+    #and we add  1 to the value of the position in population_diff array
+    #while subtract 1 to the value of (the position +1) in population_diff array
+    #since the people is still counted as an alive during the death year
     for person in people:
         population_diff[person[1] - 1900] += 1
         population_diff[person[2] - 1900+1] -= 1
         #print population_diff
 
-    max_population_Yr=0
+    # Now we need to iterate through the sequence sum of the population_diff array and
+    #get its max value and store them to the max_population_Yr_arr array
+    #However,we only peak the biggest one from there
+    #Note:by using max_population_Yr_arr, we could collect the max population year
+    #when there are more than 1 max population year
+
+    #max_population_Yr=0
     max_population_arr = []
     max_population_Yr_arr=[]
     max_population = 0
@@ -48,13 +69,20 @@ def year_with_max_population(path):
     ANS = []
     for _ in xrange(peaks):
         ANS.append(max_population_Yr_arr.pop() + 1900)
+
+    #the below "print" is to check the answers
     #print ANS
     ANS.sort()
 
     del people[:]
-    print ANS
+    #print ANS
     return ANS
 
+# the test_result is the Brute force solution, it is correct I have done it
+#through collection all the integer years when a person lives into a single
+#array and seeking the year(s) for the largest count of lives
+#However, this approach to the problem run very slow as it has a nested loop
+#where has a O(n**2) time complexity, so this solution is just used for testing
 def test_result(path):
     population,BirthYr,DeathYr = readfile(path)
     livesInYr = []
@@ -62,6 +90,9 @@ def test_result(path):
         for yr in range(BirthYr[j],DeathYr[j]+1):
              livesInYr.append(yr)
     #print livesInYr
+    #the collection method here is to count the year(s) for the largest count of lives
+    #m is the largest count in the livesInYr array
+
     m = collections.Counter(livesInYr).most_common()[0][1]
     #print m
     result = []
@@ -70,6 +101,7 @@ def test_result(path):
     while(collections.Counter(livesInYr).most_common()[i][1]==m ):
         result.append(collections.Counter(livesInYr).most_common()[i][0])
         i+=1
+    #sort the result for output testing
 
     result.sort()
     #print result
