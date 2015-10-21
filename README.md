@@ -17,6 +17,10 @@ There are 2 ipynb files:
 GraphTesting.ipynb is to test and visualize our test_result() codes correctness
 MaxLives.ipynb is to the correctness and performance of the test_result() codes
 
+The way to open is to use terminal and type the below under your directory:
+i.e.
+ipython notebook GraphTesting.ipynb
+
 Thus, since year_with_max_population(path) function passed all of our test cases, it is a better approach to 
 our problem.
 
