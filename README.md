@@ -18,6 +18,7 @@ GraphTesting.ipynb is to test and visualize our test_result() codes correctness
 MaxLives.ipynb is to the correctness and performance of the test_result() codes
 
 The way to open is to use terminal and type the below under your directory:
+
 i.e.
 ipython notebook GraphTesting.ipynb
 
