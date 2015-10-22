@@ -1,5 +1,7 @@
 # maxLives-Projects
 
+Note: I assume the people living period is between the Birth-Year and the Death-Year (these 2 points are included in the counts)
+
 There are 3 python files:
 
 mostlyAlive.py: the main file contains year_with_max_population(path)--our core function and test_result(path) 
